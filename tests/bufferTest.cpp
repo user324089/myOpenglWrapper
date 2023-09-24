@@ -59,6 +59,42 @@ TEST_F (bufferTestClass, testFixedMapDataChecking3) {
 
 #endif // DEBUG
 
+TEST_F (bufferTestClass, testBufferCreationAndDeletion) {
+    GLuint name;
+    {
+        buffer buff;
+        name = buff.getName();
+        EXPECT_EQ (glIsBuffer (name), true);
+    }
+    EXPECT_EQ (glIsBuffer (name), false);
+}
+
+TEST_F (bufferTestClass, testBufferMoveConstructor) {
+    buffer buff;
+    GLuint name = buff.getName();
+    buffer buff2 = std::move(buff);
+    EXPECT_EQ (buff2.getName(), name);
+    EXPECT_EQ (buff.getName(), 0);
+}
+
+TEST_F (bufferTestClass, testFixedSizeBufferCreationAndDeletion) {
+    GLuint name;
+    {
+        fixedSizeBuffer buff (10, 0);
+        name = buff.getName();
+        EXPECT_EQ (glIsBuffer (name), true);
+    }
+    EXPECT_EQ (glIsBuffer (name), false);
+}
+
+TEST_F (bufferTestClass, testFixedSizeBufferMoveConstructor) {
+    fixedSizeBuffer buff (10, 0);
+    GLuint name = buff.getName();
+    fixedSizeBuffer buff2 = std::move(buff);
+    EXPECT_EQ (buff2.getName(), name);
+    EXPECT_EQ (buff.getName(), 0);
+}
+
 TEST_F (bufferTestClass, testBufferBinding) {
     GLint currentBound;
     buffer buff;
