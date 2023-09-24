@@ -5,5 +5,6 @@ add_compile_definitions (GLEW_NO_GLU)
 add_library (bufferLib buffer.cpp ${MY_OPENGL_WRAPPER_INCLUDE_DIR}/buffer.hpp)
 add_library (programLib program.cpp ${MY_OPENGL_WRAPPER_INCLUDE_DIR}/program.hpp)
 target_compile_features(programLib PRIVATE cxx_std_17)
+add_library (textureLib texture.cpp ${MY_OPENGL_WRAPPER_INCLUDE_DIR}/texture.hpp)
 
-set (MY_OPENGL_WRAPPER_LIBRARIES bufferLib programLib CACHE INTERNAL "")
+set (MY_OPENGL_WRAPPER_LIBRARIES bufferLib programLib textureLib CACHE INTERNAL "")

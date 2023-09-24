@@ -84,6 +84,11 @@ texture<DIMENTIONS>::texture (GLenum _type) : type (_type) {
 }
 
 template <unsigned int DIMENTIONS>
+texture<DIMENTIONS>::texture (texture&& r) : name (r.name), type (r.type) {
+    r.name = 0;
+}
+
+template <unsigned int DIMENTIONS>
 void texture<DIMENTIONS>::setParameter (GLenum parameter, GLint value) {
     glTextureParameteri (name, parameter, value);
 }
@@ -115,6 +120,11 @@ fixedSizeTexture<DIMENTIONS>::fixedSizeTexture (GLenum _type, const textureStora
     textureDimentionPolicy<DIMENTIONS>::checkTypeValidity (type);
 #endif
     textureDimentionPolicy<DIMENTIONS>::texStorage (storageInfo, name);
+}
+
+template <unsigned int DIMENTIONS>
+fixedSizeTexture<DIMENTIONS>::fixedSizeTexture (fixedSizeTexture && r) : name (r.name), type (r.type) {
+    r.name = 0;
 }
 
 template <unsigned int DIMENTIONS>

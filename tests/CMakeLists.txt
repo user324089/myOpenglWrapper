@@ -4,11 +4,14 @@ add_compile_definitions (GLEW_NO_GLU)
 
 add_executable (bufferTest bufferTest.cpp openglTest.cpp ${MY_OPENGL_WRAPPER_INCLUDE_DIR}/buffer.hpp)
 add_executable (programTest programTest.cpp openglTest.cpp ${MY_OPENGL_WRAPPER_INCLUDE_DIR}/program.hpp)
+add_executable (textureTest textureTest.cpp openglTest.cpp ${MY_OPENGL_WRAPPER_INCLUDE_DIR}/texture.hpp)
 
 target_link_libraries (bufferTest bufferLib)
 target_link_libraries (programTest programLib)
 target_compile_features(programTest PRIVATE cxx_std_17)
+target_link_libraries (textureTest textureLib)
 
 enable_testing()
 add_test (BufferTest bufferTest)
 add_test (ProgramTest programTest)
+add_test (TextureTest textureTest)

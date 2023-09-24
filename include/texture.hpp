@@ -86,11 +86,14 @@ class texture {
     public:
         typedef typename textureDimentionPolicy<DIMENTIONS>::textureDataInfo textureDataInfo;
         texture (GLenum _type);
+        texture (const texture & r) = delete;
+        texture & operator = (const texture & r) = delete;
+        texture (texture && r);
         void setParameter (GLenum parameter, GLint value);
         void bind (int unit);
         static void unbind (int unit);
         void data (const textureDataInfo& info, int level);
-	GLuint getName () {return name;}
+        GLuint getName () {return name;}
         ~texture ();
 };
 
@@ -102,11 +105,14 @@ class fixedSizeTexture {
     public:
         typedef typename textureDimentionPolicy<DIMENTIONS>::textureStorageInfo textureStorageInfo;
         fixedSizeTexture (GLenum _type, const textureStorageInfo & storageInfo);
+        fixedSizeTexture (const fixedSizeTexture & r) = delete;
+        fixedSizeTexture operator = (const fixedSizeTexture & r) = delete;
+        fixedSizeTexture (fixedSizeTexture && r);
         ~fixedSizeTexture ();
         void clear (GLint level, GLenum format, GLenum dataType, const void *data);
         void setParameter (GLenum parameter, GLint value);
         void bind (int unit);
-	GLuint getName () {return name;}
+        GLuint getName () {return name;}
         static void unbind (int unit);
 };
 
