@@ -34,6 +34,16 @@ TEST_F (programTestClass, testShaderMaking) {
     EXPECT_EQ (true, glIsShader (s.getName()));
 }
 
+TEST_F (programTestClass, testShaderMoveConstructor) {
+    shader s (GL_VERTEX_SHADER);
+    GLuint name = s.getName();
+    EXPECT_EQ (true, glIsShader (name));
+    shader s2 = std::move (s);
+    EXPECT_EQ (name, s2.getName());
+    EXPECT_EQ (0, s.getName());
+    EXPECT_EQ (true, glIsShader (name));
+}
+
 TEST_F (programTestClass, testShaderDeleting) {
     GLuint sName;
     {
@@ -56,6 +66,16 @@ TEST_F (programTestClass, testProgramSingularMaking) {
 
     EXPECT_EQ (0, glGetError()); 
     EXPECT_EQ (GL_TRUE, linkStatus);
+}
+
+TEST_F (programTestClass, testProgramMoveConstructor) {
+    program prog;
+    GLuint name = prog.getName();
+    EXPECT_EQ (true, glIsProgram (name));
+    program prog2 = std::move (prog);
+    EXPECT_EQ (prog2.getName(), name);
+    EXPECT_EQ (prog.getName(), 0);
+    EXPECT_EQ (true, glIsProgram (name));
 }
 
 TEST_F (programTestClass, testProgramMaking) {
@@ -119,4 +139,14 @@ TEST_F (programTestClass, testProgramError) {
     s2.make (1, &fragmentLinkErrorSource);
     program pr;
     EXPECT_THROW (pr.make (s1, s2), std::runtime_error);
+}
+
+TEST_F (programTestClass, testProgramPipelineMoveConstructor) {
+    programPipeline prog;
+    GLuint name = prog.getName();
+    EXPECT_EQ (true, glIsProgramPipeline (name));
+    programPipeline prog2 = std::move (prog);
+    EXPECT_EQ (prog2.getName(), name);
+    EXPECT_EQ (prog.getName(), 0);
+    EXPECT_EQ (true, glIsProgramPipeline (name));
 }

@@ -12,6 +12,7 @@ class shader {
         shader (GLenum type);
         shader (const shader & r) = delete;
         shader & operator = (const shader & r) = delete;
+        shader (shader && r);
         ~shader ();
         void make (GLsizei count, const GLchar *const *string);
         GLuint getName () { return name;}
@@ -25,6 +26,7 @@ class program {
 	program ();
 	program (const program & r) = delete;
 	program & operator = (const program & r) = delete;
+    program (program && r);
 	template <typename... T>
 	    void make (T&... shaders);
 	void makeSingular (GLenum type, GLsizei count, const GLchar *const *strings);
@@ -34,6 +36,7 @@ class program {
 	~program ();
 	static void unUse ();
 };
+
 template <typename... T>
 void program::make (T&... shaders) {
     (... , glAttachShader (name, shaders.getName()));
@@ -55,12 +58,14 @@ class programPipeline {
         programPipeline ();
         programPipeline (const programPipeline & r) = delete;
         programPipeline & operator = (const programPipeline & r) = delete;
+        programPipeline (programPipeline && r);
         void useProgram (program& p, GLbitfield stages);
         void activeProgram (program& p);
         void activeProgram (GLenum type);
         void use ();
         ~programPipeline ();
         static void unUse ();
+	GLuint getName () { return name; }
 };
 
 #endif

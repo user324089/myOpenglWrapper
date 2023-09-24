@@ -3,6 +3,11 @@
 shader::shader (GLenum type) {
     name = glCreateShader(type);
 }
+
+shader::shader (shader && r) : name (r.name) {
+    r.name = 0;
+}
+
 shader::~shader () {
     glDeleteShader (name);
 }
@@ -23,6 +28,11 @@ void shader::make (GLsizei count, const GLchar *const *string) {
 program::program () {
     name = glCreateProgram ();
 }
+
+program::program (program && r) : name (r.name) {
+    r.name = 0;
+}
+
 void program::makeSingular (GLenum type, GLsizei count, const GLchar *const *strings) {
     glDeleteProgram (name);
     name = glCreateShaderProgramv (type, count, strings);
@@ -40,9 +50,15 @@ void program::unUse () {
     glUseProgram (0);
 }
 
+
 programPipeline::programPipeline () {
     glCreateProgramPipelines (1, &name);
 }
+
+programPipeline::programPipeline (programPipeline && r) : name (r.name) {
+    r.name = 0;
+}
+
 void programPipeline::useProgram (program& p, GLbitfield stages) {
     glUseProgramStages (name, stages, p.getName());
 }
